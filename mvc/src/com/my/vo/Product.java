@@ -6,9 +6,6 @@ import javax.annotation.PreDestroy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-@Component(value = "p")
-//@Scope(value = "prototype")
-
 public class Product {
 	private String prod_no;
 	private String prod_name;
@@ -24,16 +21,6 @@ public class Product {
 		this.prod_price = prod_price;
 	}
 
-	@PostConstruct
-	public void testInit() {
-		System.out.println("객체생성후 testInit()호출됨");
-	}
-	
-	@PreDestroy
-	public void testDestroy() {
-		System.out.println("객체소멸전 testDestory()호출됨");
-	}
-	
 	@Override
 	public String toString() {
 		return "Product [prod_no=" + prod_no + ", prod_name=" + prod_name + ", prod_price=" + prod_price + "]";

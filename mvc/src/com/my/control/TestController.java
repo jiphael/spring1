@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,11 +25,17 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.my.dao.CustomerDAO2;
+import com.my.exception.FindException;
+import com.my.vo.Customer;
 import com.my.vo.Product;
 
 @Controller
 //@RestController //view리저브를 사용하는 매서드가 혼합되어 있으면 restController를 붙이면 안됨. ViewResolver, View를 사용안함.
 public class TestController {
+	@Autowired
+	@Qualifier(value = "customerDAOOracle")
+	private CustomerDAO2 dao;
 	public TestController() {
 		System.out.println("TestController객체생성됨");
 	}
@@ -126,6 +135,17 @@ public class TestController {
 		//attrs.put("product",p);
 		attrs.put("test","hello");
 		return attrs;
+	}
+	@GetMapping("/n.do")
+	@ResponseBody
+	public String n() {
+		try {
+			Customer c = dao.selectById("id1");
+			return "아이디:"+ c.getId()+",이름"+c.getName();
+		}catch(FindException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		}
 	}
 	
 }
