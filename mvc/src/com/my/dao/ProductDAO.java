@@ -25,12 +25,12 @@ public class ProductDAO {
 	
 	public void insert(Product product) throws AddException, DuplicatedException{
 	}
-	public Product selectByNo(String no) throws FindException{
+	public Product selectByNo(String prod_no) throws FindException{
 		SqlSession session = null;
 		try {
 			session = sqlSessionFactory.openSession();
 			Product p = session.selectOne("ProductMapper.selectByNo"
-	                , "C0001");
+	                , prod_no);
 			if(p == null) {
 				throw new FindException("상품이 없습니다");
 			}

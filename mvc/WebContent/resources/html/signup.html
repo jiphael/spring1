@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>./jq/signup.html</title>
+<style>
+div.signup>form>label>button[type=submit]{ visibility: hidden; }
+div.signup>form>fieldset{ width: 30%;}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(function(){
+	//dom트리에서 type속성값이 submit인 button객체찾기
+	var $submitObj = $("div.signup>form>label>button[type=submit]");
+	
+	//dom트리에서 name속성값이 id인 input객체찾기
+	var $idObj = $("div.signup>form>label>input[name=id]");
+	//id입력란에 focus이벤트 핸들러 : submit버튼객체 사라지기
+	$idObj.focus(function(){
+		$submitObj.css('visibility', 'hidden');
+	});
+	
+	
+	//1)dom트리에서 type속성값이 button인 button객체찾기
+	var $idDupChkObj = $("div.signup>form>label>button[type=button].idDupChk");
+// 	body > div > form > label > button
+	//--------ID중복확인 START------------------------
+	//1)객체에서 click이벤트 핸들러
+	$idDupChkObj.click(function(){
+		console.log("$idDupChkObj.click 1");
+		//id값입력됐는지 확인
+		if($idObj.val().trim().length == 0){
+			//id입력란에 focus();
+			$idObj.focus();
+			return false;
+		}
+		//id값이 정상값이 경우 idDupChk.jsp요청후 응답
+		//요청할 URL : idDupchk.jsp, 요청방식: GET, 요청시전달할데이터:id=id값
+		//응답이 성공
+		//       --ID가 중복된 경우의 응답결과는 {"status":"success"}
+		//                      경고창에 "이미 사용중인 ID입니다"
+		//                      포커스를 ID입력란으로 이동
+		//       --ID가 중복안된 경우의 응답결과는 {"status":"fail"}
+		//                      가입버튼객체를 화면에 보여주기
+		$.ajax({
+			url:'/back25/idDupChk' //'../idDupChk.jsp'
+			,method:"GET"
+			,data:{id:$idObj.val()}
+		    ,success:function(responseObj){
+		    	console.log(responseObj);
+		    	//var responseObj = JSON.parse(data);
+		    	if(responseObj.status=='success'){
+		    		alert('이미 사용중인 ID입니다');
+		    		$idObj.focus();
+		    		$idObj.select();
+		    	}else{
+		    		console.log("사용가능한 ID");
+		    		console.log($submitObj);
+		    		console.log($submitObj.html());
+		    		$submitObj.css("visibility", "visible");
+		    	}
+		    }
+		});	//end ajax
+		return false;
+	});
+	//-----------ID중복확인 END----------------------
+	//-----------우편번호 검색 START-----------------
+	var $postalBtObj = $('div.signup>form>fieldset>label>button[type=button].postal'); 
+	$postalBtObj.click(function(){
+		//새창띄우기
+		var searchPostURL = 'searchPost.html';
+		var name = 'postal';
+		var option = 'width=500,height=200, top=200, left=250';
+		window.open(searchPostURL, name, option);
+	});
+	//-----------우편번호 검색 END-------------------
+	//-----------가입 전송 START---------------------
+	$("div.signup>form").submit(function(){
+		var $pwd = $("div.signup>form>label>input[name=pwd]");
+		var $pwd1 = $("div.signup>form>label>input[name=pwd1]");
+		if($pwd.val() != $pwd1.val()){
+			alert('비밀번호가 일치하지 않습니다');
+			$pwd.focus();
+			return false;
+		}
+		$.ajax({
+			url:'/back25/signup'//'../signup.jsp'
+			,method:'POST'
+			,data: $(this).serialize()
+			,success:function(responseObj){
+				if("success" == responseObj.status){
+					alert("가입 성공");
+					location.href="first.html";
+				}else{
+					alert("가입 실패");
+				}
+			}
+		});
+		return false;
+	});
+	//-----------가입버튼 전송 END---------------------
+	//-----------input enter START-------------------
+	//input입력양식에서 enter누르면 
+	//기본이벤트핸들러가 자동처리되고
+	//그 기본이벤트핸들러에 의해 form의 submit이벤트가 자동발생된다
+	//enter누를경우 기본이벤트핸들러를 막는다
+	$('div.signup>form input').keypress(function(e) {
+		if(e.keyCode == 13){ //엔터
+			return false;
+// 			e.preventDefault();
+		}
+	});
+	//-----------input enter END-------------------
+	
+});
+</script>
+</head>
+<body>
+<div class="signup">
+<form>
+  <label>ID:<input name="id" placeholder="ID를 입력하세요" required></label>
+  <label><button type="button" class="idDupChk" required>ID중복확인</button></label>      
+  <br>
+  <label>비밀번호:<input type="password" name="pwd" required></label><br>
+  <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 <input type="password" name="pwd1" required></label><br>
+  
+  <label>이름:<input name="name" placeholder="이름을 입력하세요" required></label><br>
+  <fieldset>
+    <label><button type="button" class="postal" required>우편번호 검색</button></label><br>
+    <input type="text" readonly size="5" class="code" required><br>
+    <input type="text" readonly size="30" class="baseAddr" required>
+    <input type="hidden" name="buildingno" required>
+  </fieldset>
+  
+  <label>상세 주소:<input type="text" name="addr"></label>
+  <br>
+  <label><button type="submit">가입</button>
+  </label>
+</form>
+</div>
+</body>
+</html>

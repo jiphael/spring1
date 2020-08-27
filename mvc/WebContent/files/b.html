@@ -1,0 +1,24 @@
+<meta charset="UTF-8">
+<style>
+form>label>span::after{
+  content: ':';
+}
+</style>
+<script>
+  //문서렌더링되면
+  //localstorage에 loginId이름에 해당하는 item얻기, ID입력란에 보여주기
+  
+  //로그인버튼이 클릭되면 
+  //checkbox가 선택된경우 localstorage에 (이름은 "loginId", 값은 입력한 ID값) 추가
+  //              안된경우 localstorage에 loginId이름에 해당하는 item제거
+  window.addEventListener('load', function(){
+	 
+  });
+</script>
+<!-- <form method="POST" action="../first"> -->
+<form>
+  <label><span>아이디</span><input type="text" name="id"  size="10"></label><br>
+  <label><span>비밀번호</span><input type="password" name="pwd"  size="10"></label><br>
+  <label><input type="checkbox" name="test">아이디저장</label><br>
+  <button type="submit">로그인</button>
+</form>
