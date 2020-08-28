@@ -11,11 +11,10 @@
 	  <property name="name" value="홍길동"/>
 	  <property name="addr" value=""/>
 	</bean>
-	
-
-	<context:component-scan base-package="com.my.vo"></context:component-scan>
 	<context:component-scan base-package="com.my.dao"></context:component-scan>
 	<context:component-scan base-package="com.my.service"></context:component-scan>
+	<context:component-scan base-package="com.my.vo"></context:component-scan>
+	<context:component-scan base-package="com.my.control"></context:component-scan>
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<!-- <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/> -->
 		<property name="driverClassName"
