@@ -27,8 +27,8 @@ import com.my.control.ProductController;
 @ExtendWith(SpringExtension.class)
 //@ContextConfiguration(locations = "file:WebContent\\WEB-INF\\mvc-servlet.xml")
 @ContextHierarchy({
-    @ContextConfiguration(locations = "file:WebContent\\WEB-INF\\applicationContext.xml"),
-    @ContextConfiguration(locations = "file:WebContent\\WEB-INF\\mvc-servlet.xml")
+    @ContextConfiguration(locations = "file:WebContent\\WEB-INF\\root-context.xml"),
+    @ContextConfiguration(locations = "file:WebContent\\WEB-INF\\servlet-context.xml")
 })
 @WebAppConfiguration
 class ControllerTest {
