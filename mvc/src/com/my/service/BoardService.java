@@ -2,12 +2,14 @@ package com.my.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.my.dao.BoardDAO;
 import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.model.PageBean;
 import com.my.vo.Board;
-
+@Service
 public class BoardService {
 	private BoardDAO dao;
 	public BoardService() {

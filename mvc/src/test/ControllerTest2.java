@@ -31,7 +31,7 @@ import com.my.control.ProductController;
     @ContextConfiguration(locations = "file:WebContent\\WEB-INF\\servlet-context.xml")
 })
 @WebAppConfiguration
-class ControllerTest {
+class ControllerTest2 {
 	@Autowired
 	private ProductController productController;
 	private MockMvc mockMvc;
@@ -53,6 +53,7 @@ class ControllerTest {
 		//mockReqBuilder.contentType(MediaType.APPLICATION_JSON);
 		//mockReqBuilder.param("id", "id1");
 		ResultActions resultAction1 = mockMvc.perform(mockReqBuilder);
+		
 		resultAction1.andDo(MockMvcResultHandlers.print());
 		ResultActions resultAction2 = resultAction1.andExpect(status().isOk());
 //		ResultMatcher matcher = MockMvcResultMatchers.forwardedUrl("/productList.jsp");

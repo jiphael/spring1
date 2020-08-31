@@ -54,4 +54,19 @@ class WebApplicationContextTest {
 		MockHttpServletRequestBuilder mockReqBuilder = MockMvcRequestBuilders.get(uri);
 		mockMvc.perform(mockReqBuilder);
 	}
+	
+	@Test
+	public void boardListTest() {
+		String uri = "/board/list/1";
+		MockHttpServletRequestBuilder mockReqBuilder = MockMvcRequestBuilders.get(uri);
+		
+		try {
+			ResultActions resultAction1 = mockMvc.perform(mockReqBuilder);
+			resultAction1.andDo(MockMvcResultHandlers.print());
+			resultAction1.andExpect(status().isOk());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 }

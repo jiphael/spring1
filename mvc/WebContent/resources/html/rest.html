@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$.ajax({
+		url:"/mvc/o.do"
+		,method:"get"
+		,success:function(data){
+			var jsonObj = JSON.parse(data);
+			console.log("o.do msg :"+jsonObj.msg);
+		}
+});
+		
+$.ajax({
+		url:"/mvc/p.do"
+		,method:"get"
+		,success:function(jsonObj){
+			console.log("p.do msg :"+jsonObj.msg);
+		}
+});
+
+$.ajax({
+	url:"/mvc/q.do"
+	,method:"get"
+	,success:function(pObj){
+		console.log("p.do p.prod_no :"+pObj.prod_no);
+	}
+});
+
+$.ajax({
+	url:"/mvc/r.do"
+	,method:"get"
+	,success:function(pArr){
+		console.log("p.do pAr :"+ pArr);
+	}
+});
+
+$.ajax({
+	url:"/mvc/t.do"
+	,data:"num=2"
+	,method:"get"
+	,success:function(data){
+		console.log("t.do data :"+ data);
+	}
+	,error:function(xhr){
+		console.log("t.do error:"+ xhr.status)
+	}
+});
+
+</script>
+</head>
+<body>
+
+</body>
+</html>
