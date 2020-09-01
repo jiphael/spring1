@@ -36,7 +36,7 @@ class WebApplicationContextTest {
 		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 	}
 	
-	@Test
+	//@Test
 	void productListTest() throws Exception {
 		String uri="/productList";
 		MockHttpServletRequestBuilder mockReqBuilder = 
@@ -59,7 +59,6 @@ class WebApplicationContextTest {
 	public void boardListTest() {
 		String uri = "/board/list/1";
 		MockHttpServletRequestBuilder mockReqBuilder = MockMvcRequestBuilders.get(uri);
-		
 		try {
 			ResultActions resultAction1 = mockMvc.perform(mockReqBuilder);
 			resultAction1.andDo(MockMvcResultHandlers.print());
@@ -68,5 +67,17 @@ class WebApplicationContextTest {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	@Test
+	public void boardDetailTest() {
+		String uri = "/board/detail/32";
+		MockHttpServletRequestBuilder mockReqBuilder = MockMvcRequestBuilders.get(uri);
+		try {
+			ResultActions resultAction1 = mockMvc.perform(mockReqBuilder);
+			resultAction1.andDo(MockMvcResultHandlers.print());
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

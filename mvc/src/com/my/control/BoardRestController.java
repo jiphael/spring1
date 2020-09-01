@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.my.exception.FindException;
 import com.my.model.PageBean;
 import com.my.service.BoardService;
+import com.my.vo.Board;
 
 @Controller
 @RequestMapping("/board/*")
@@ -27,7 +28,20 @@ public class BoardRestController {
 	public String root2() {
 		return "/boardRest"; //  web-inf/jsp/obardRest.jsp로 포워드
 	}
-
+	
+	@RequestMapping("/deatil/{board_no}")
+	@ResponseBody
+	public ResponseEntity<Board> detail(@PathVariable int board_no){
+			 Board board =null;
+		try {
+			 board = service.findByNo(board_no);
+			return (ResponseEntity<Board>)ResponseEntity.status(HttpStatus.OK).body(board);
+		}catch(FindException e) {
+			e.printStackTrace();
+			return (ResponseEntity<Board>)ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(board);
+		}
+		
+	}
 	@RequestMapping("/list/{currentPage}")
 	@ResponseBody
 	public ResponseEntity<PageBean> list(@PathVariable(value="currentPage",required=false) Integer cp){
