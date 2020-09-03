@@ -3,7 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!-- 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"> --> 
+	<bean id="customLoginSuccess" class="org.zerock.security.CutomLoginScessHandler"/>
+	<bean id=bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
 	<security:http>
 		<!-- 로그인하지 않은 사용자도 접근가능 -->
 		<security:intercept-url pattern="/sample/all"
@@ -16,7 +18,13 @@
 		<!-- 로그인한 사용자중 관리자권한을 가진 사용자만 접근할수있는 URI -->
 		<security:intercept-url pattern="/sample/admin"
 			access="hasRole('ROLE_ADMIN')" />
-		<security:form-login />
+<!-- 		<security:form-login /> -->
+	      <security:access-denied-handler error-page ="/accessError" />
+		  <security:form-login login-page="/customLogin" 
+		  authentication-failure-handler-ref="customerLoginSuccess"/>
+		
+<!-- 		<security:logout logout-url="/customLogout" invalidate-session="true" -->
+<!-- 													logout-success-url="/" /> -->
 	</security:http>
 	<security:authentication-manager>
 		<security:authentication-provider>
@@ -26,11 +34,21 @@
 				<security:user name="admin" password="{noop}admin"
 					authorities="ROLE_MEMBER,ROLE_ADMIN" />
 			</security:user-service>
-
+	
 
 		</security:authentication-provider>
 
 	</security:authentication-manager>
+
+<security:authentication-manager> 
+    <security:authentication-provider>
+       <security:jdbc-user-service 
+         data-source-ref="dataSource"
+         users-by-username-query="select userid, userpw, enabled fromtbl_member where userid =?"
+         authorities-by-username-query="?" />
+      <security:password-encoderb ref="bcryptPasswordEncoder" />
+    </security:authentication-provider>
+</security:authentication-manager>
 
 
 </beans>

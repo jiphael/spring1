@@ -20,8 +20,9 @@
 <%-- <p>사용자아이디 : <sec:authentication property="principal.username"/></p> --%>
 <%-- <p>사용자 권한 리스트  : <sec:authentication property="principal.member.authList"/></p> --%>
 
-
-<!-- <a href="/customLogout">Logout</a> -->
+<%-- <securlity:logout logout-urls="" --%>
+<!-- <a href="/logout">Logout</</a> -->
+<a href="/customLogout">Logout</a>
 
 
 </body>
